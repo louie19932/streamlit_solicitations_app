@@ -51,8 +51,6 @@ if uploaded_file is not None:
                 st.write('---')
         else:
             st.warning('No results found. Try different search terms.')
-    else:
-        pass
 
 
 
