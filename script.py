@@ -30,27 +30,27 @@ if uploaded_file is not None:
     st.write(df.head())
 
     # Search titles
-    search_terms = st.text_input('Search Titles:')
+search_terms = st.text_input('Search Titles:')
 
-    if search_terms:
-        words = search_terms.lower().split()
+if search_terms:
+    words = search_terms.lower().split()
+    mask = df['Title'].str.lower().apply(lambda x: all(word in x for word in words))
+    filtered_df = df[mask]
+else:
+    filtered_df = df
+    
+if not filtered_df.empty:
+    st.write(f'Number of results: {len(filtered_df)}')
+    st.write('')
+    st.write('')
 
-        # Only keep rows where at least one word matches
-        mask = df['Title'].str.lower().apply(lambda x: all(word in x for word in words))
-        filtered_df = df[mask]
-
-        if not filtered_df.empty:
-            st.write(f'Number of results: {len(filtered_df)}')
-            st.write('')
-            st.write('')
-
-            for ind in filtered_df.index:
-                st.write(f"**Title**: {filtered_df.Title[ind]}\n")
-                st.write(f"**Response Deadline**: {filtered_df.ResponseDeadLine[ind]}\n")
-                st.write(filtered_df.Link[ind])
-                st.write('---')
-        else:
-            st.warning('No results found. Try different search terms.')
+    for ind in filtered_df.index:
+        st.write(f"**Title**: {filtered_df.Title[ind]}\n")
+        st.write(f"**Response Deadline**: {filtered_df.ResponseDeadLine[ind]}\n")
+        st.write(filtered_df.Link[ind])
+        st.write('---')
+else:
+    st.warning('No results found. Try different search terms.')
 
 
 
