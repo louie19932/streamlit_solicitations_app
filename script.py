@@ -9,13 +9,13 @@ uploaded_file = st.file_uploader('sam.gov -> data services -> contract opportuni
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file, encoding='ISO-8859-1', low_memory=False)
 
-    # Clean
+    # clean
     df['PostedDate'] = pd.to_datetime(df.PostedDate, format='ISO8601', utc=True)
     df['PostedDate'] = df.PostedDate.dt.date
     df = df[df['Department/Ind.Agency'] == 'DEPT OF DEFENSE']
     df = df[(df.Awardee.isnull()) | (df.Awardee == 'null') | (df.Awardee == 'null ') | (df.Awardee == None)]
 
-    # days_back input before proceeding
+    # days back
     days_back_input = st.text_input('How many days back? (Required)', value='')
 
     if days_back_input:
@@ -34,7 +34,7 @@ if uploaded_file is not None:
             else:
                 filtered_df = df
 
-            # Show results
+            # show results
             if not filtered_df.empty:
                 st.write(f'Number of results: {len(filtered_df)}')
                 
