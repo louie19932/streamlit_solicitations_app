@@ -37,8 +37,8 @@ if uploaded_file is not None:
             # Show results
             if not filtered_df.empty:
                 st.write(f'Number of results: {len(filtered_df)}')
-                st.write('')
-                st.write('')
+                st.write(None)
+                st.write(None)
                 for idx, row in filtered_df.iterrows():
                     st.write(f"**Title**: {row['Title']}")
                     st.write(f"**Response Deadline**: {row['ResponseDeadLine']}")
