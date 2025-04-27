@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 
-st.title('Solicitations Filter')
+st.title('Sam.gov Contracts Filter')
 
 uploaded_file = st.file_uploader('sam.gov -> data services -> contract opportunities -> datagov -> ContractOpportunitiesFullCSV.csv',type='csv')
 
