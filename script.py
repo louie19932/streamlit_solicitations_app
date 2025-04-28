@@ -15,6 +15,12 @@ if uploaded_file is not None:
     df = df[df['Department/Ind.Agency'] == 'DEPT OF DEFENSE']
     df = df[(df.Awardee.isnull()) | (df.Awardee == 'null') | (df.Awardee == 'null ') | (df.Awardee == None)]
 
+
+    words = ['request','information','industry','solicitation','award','contract','rpi','sources','sought','opportunity','rfq','proposal',
+             'rfi','broad', 'agency', 'announcement','baa','synopsis','contract','idiq','technical','exchange','meeting','amendment','cctv']
+    pattern = '|'.join(words)
+    df = df[df.Title.str.contains(pattern,case=False)]
+    
     # days back
     days_back_input = st.text_input('How many days back? (Required)', value='')
 
