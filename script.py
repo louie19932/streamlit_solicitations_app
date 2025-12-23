@@ -6,6 +6,15 @@ st.title('Sam.gov Contracts Filter')
 
 uploaded_file = st.file_uploader('sam.gov -> data services -> contract opportunities -> datagov -> ContractOpportunitiesFullCSV.csv',type='csv')
 
+def descr_words(df,ind):
+    for i in range (len(descrip_words)):
+        if descrip_words[i].lower() in df['Description'][ind].lower():
+            st.write(f'*description: {descrip_words[i]}')
+def title_words(df,ind):    
+    for i in range(len(descrip_words)):
+        if descrip_words[i].lower() in df['Title'][ind].lower():
+            st.write(f'*title: {descrip_words[i]}') 
+
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file, encoding='ISO-8859-1', low_memory=False)
 
@@ -15,11 +24,31 @@ if uploaded_file is not None:
     df = df[df['Department/Ind.Agency'] == 'DEPT OF DEFENSE']
     df = df[(df.Awardee.isnull()) | (df.Awardee == 'null') | (df.Awardee == 'null ') | (df.Awardee == None)]
 
-
-    words = ['request','information','industry','solicitation','award','contract','rpi','sources','sought','opportunity','rfq','proposal',
-             'rfi','broad', 'agency', 'announcement','baa','synopsis','contract','idiq','technical','exchange','meeting','amendment','cctv']
-    pattern = '|'.join(words)
-    df = df[df.Title.str.contains(pattern,case=False)]
+    words  =  [' rf ',
+                ' passive ',
+                ' spectral ',
+                ' sensing ',
+                ' electromagnetic ',
+                ' unmanned ',
+                ' sensor ',
+                ' satellite ',
+                ' surveillance ',
+                ' situational ',
+                ' unintended ',
+                ' radiation ',
+                ' signal ',
+                ' denoising ',
+                ' tracking ',
+                ' counterfeit ',
+                ' awareness ',
+                ' detection ',
+                ' space domain ',
+                ' cyber ',
+                ' anomaly ',
+                ' monitoring ',
+                ' cctv ']
+    pattern = '|'.join(descrip_words)
+    df = df[(df.Title.str.contains(pattern,case=False)) | (df.Description.str.contains(pattern,case=False))]
     
     # days back
     days_back_input = st.text_input('How many days back? (Required)', value='')
@@ -47,6 +76,8 @@ if uploaded_file is not None:
                 for idx, row in filtered_df.iterrows():
                     st.write(f"**Title**: {row['Title']}")
                     st.write(f"**Response Deadline**: {row['ResponseDeadLine']}")
+                    descr_words(df,i)
+                    title_words(df,i)
                     st.write(f"{row['Link']}")
                     st.write('---')
             else:
@@ -56,5 +87,6 @@ if uploaded_file is not None:
             st.error('Please enter a valid number for days back (e.g., 7, 30).')
     else:
         st.warning('Please enter how many days back you want to search.')
+
 
 
