@@ -3,9 +3,11 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 import numpy as np
-from more_itertools import flatten
 
 st.title('Sam.gov Contracts Filter')
+
+def flatten(xss):
+    return [x for xs in xss for x in xs]
 
 def descr_words(df,idx,pattern):
     pattern = pattern.split('|')
@@ -94,6 +96,7 @@ def keyword_function():
 
 if __name__=="__main__":
     keyword_function()
+
 
 
 
