@@ -80,7 +80,7 @@ def keyword_function():
         st.write(f'default keywords:\n{pattern} ')
         st.write(f'number of keywords:{len(pattern.split('|'))}')
         add_words = st.text_area("Add comma-separated keywords (optional)")
-        if add_words:
+        if len(add_words)!=0:
             words = [words]
             add_words = add_words.split(",")
             words.append(add_words)
@@ -96,6 +96,7 @@ def keyword_function():
 
 if __name__=="__main__":
     keyword_function()
+
 
 
 
